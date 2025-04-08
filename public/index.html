@@ -2,142 +2,136 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>양육비 계산기 - 이혼전문로펌 솔로몬</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>양육비 산정 AI 봇</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
+      font-family: 'Noto Sans KR', sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #f9f9f9;
     }
-
     header {
-      background-color: #005bbb;
+      background-color: #003366;
       color: white;
-      padding: 20px 10px;
+      padding: 16px;
       text-align: center;
     }
-
-    .desktop-logo,
-    .mobile-logo {
-      display: none;
-      margin: 0 auto;
-      max-width: 100%;
+    header img {
+      max-width: 120px;
       height: auto;
-    }
-
-    @media (min-width: 768px) {
-      .desktop-logo {
-        display: block;
-      }
-    }
-
-    @media (max-width: 767px) {
-      .mobile-logo {
-        display: block;
-      }
-    }
-
-    h1 {
-      margin-top: 20px;
-      font-size: 24px;
-    }
-
-    .contact-info {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-    .contact-info a {
-      color: white;
-      text-decoration: none;
-      margin: 0 5px;
-    }
-
-    main {
-      padding: 20px;
-    }
-
-    form {
-      background-color: white;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    label {
       display: block;
-      margin: 10px 0 5px;
+      margin: 0 auto 10px;
     }
-
-    input, select, button {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #eee;
+      padding: 10px;
+      gap: 20px;
     }
-
-    button {
-      background-color: #005bbb;
-      color: white;
+    nav a {
+      color: #003366;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .notice-box {
+      background: #fffbe6;
+      padding: 10px;
+      margin-top: 15px;
+      border: 1px solid #ffe58f;
       font-size: 16px;
-      cursor: pointer;
-      border: none;
     }
-
-    button:hover {
-      background-color: #004999;
+    .hidden { display: none; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; font-size: 15px; }
+    th { background-color: #f0f0f0; }
+    .download-buttons { margin-top: 20px; text-align: center; }
+    button { padding: 10px 20px; font-size: 16px; margin: 5px; cursor: pointer; }
+    .result-area {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      font-size: 15px;
+      line-height: 1.6;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="/desk-logo.png" alt="솔로몬 이혼전문팀 로고" class="desktop-logo" />
-    <img src="/mobile-logo.png" alt="솔로몬 이혼전문팀 모바일 로고" class="mobile-logo" />
-    <h1>이혼전문로펌 솔로몬</h1>
-    <div class="contact-info">
-      <a href="tel:16444754">상담전화 <strong>1644-4754</strong></a> |
-      <a href="https://www.lawsolomon.com/" target="_blank">솔로몬 홈페이지</a> |
-      <a href="https://blog.naver.com/pjy50091" target="_blank">솔로몬 이혼블로그</a>
-    </div>
+    <img src="/desk-logo.png" alt="로펌 서휘 이혼전문팀 솔로몬 로고" class="desktop-logo">
+    <h1>로펌 서휘 이혼전문팀 솔로몬</h1>
+    <p>
+      <a href="https://www.lawsolomon.com" style="color: white;">솔로몬 홈페이지</a> |
+      <a href="https://blog.naver.com/pjy50091" style="color: white;">솔로몬 블로그</a> |
+      <a href="tel:16444754" style="color: white;">1644-4754</a>
+    </p>
   </header>
 
+  <nav>
+    <a href="#calc">양육비 계산</a>
+    <a href="#table">기준표 보기</a>
+    <a href="#method">계산법 설명</a>
+    <a href="#premium">고급 계산기 (유료)</a>
+  </nav>
+
   <main>
-    <h2 style="text-align:center;">양육비 AI 계산기</h2>
-    <form id="calculator">
-      <label>자녀 수:</label>
-      <input type="number" id="child-count" min="1" max="4" required />
+    <div class="notice-box">
+      <p><strong>Tip:</strong> 네이버에서 <strong>“솔로몬 이혼”</strong>이라고 검색하시면<br>이혼에 관한 모든 정보를 확인하실 수 있습니다.</p>
+    </div>
 
-      <label>첫째 나이:</label>
-      <input type="number" id="age1" min="0" max="30" />
+    <section id="premium">
+      <h2>4. 고급 양육비 계산기 (유료)</h2>
+      <p>본 계산기는 자녀의 나이 및 예상되는 부모의 소득변화에 따라 계단식으로 양육비를 정하기 위한 고급기능입니다.<br>
+      그리고 이는 로펌 서휘 이혼전문팀 솔로몬이 제공하는 유료 서비스입니다.<br>
+      이용을 위해 아래에 비밀번호를 입력하시거나, <a href="https://smartstore.naver.com/yourstore" target="_blank">이용권을 구매해주세요</a>.</p>
 
-      <label>둘째 나이:</label>
-      <input type="number" id="age2" min="0" max="30" />
+      <input type="password" id="premiumPassword" placeholder="비밀번호 입력" />
+      <button onclick="unlockPremium()">접속</button>
 
-      <label>셋째 나이:</label>
-      <input type="number" id="age3" min="0" max="30" />
+      <div id="premiumSection" class="hidden">
+        <p>🔓 접속되었습니다! 여기에 고급 계산기 기능이 추가되었습니다.</p>
 
-      <label>넷째 나이:</label>
-      <input type="number" id="age4" min="0" max="30" />
+        <button onclick="downloadExcel()">📥 결과를 Excel로 다운로드</button>
+        <button onclick="downloadPDF()">📥 결과를 PDF로 다운로드</button>
+      </div>
+    </section>
 
-      <label>애들 아빠 세전 월소득 (만원):</label>
-      <input type="number" id="dad-income" required />
+    <script>
+      function unlockPremium() {
+        const pw = document.getElementById('premiumPassword').value;
+        if (pw === '1007') {
+          document.getElementById('premiumSection').classList.remove('hidden');
+        } else {
+          alert('비밀번호가 올바르지 않습니다.');
+        }
+      }
 
-      <label>애들 엄마 세전 월소득 (만원):</label>
-      <input type="number" id="mom-income" required />
+      function downloadExcel() {
+        const wb = XLSX.utils.book_new();
+        const ws_data = [
+          ["기간", "자녀1 나이", "부친소득", "모친소득", "분담비율", "아빠 부담액", "엄마 부담액"],
+          ["2024~2025", "9세", "500만", "300만", "62.5%", "625,000원", "375,000원"],
+          ["2026~2027", "11세", "600만", "400만", "60.0%", "720,000원", "480,000원"]
+        ];
+        const ws = XLSX.utils.aoa_to_sheet(ws_data);
+        XLSX.utils.book_append_sheet(wb, ws, "양육비 계산 결과");
+        XLSX.writeFile(wb, "양육비_계산결과.xlsx");
+      }
 
-      <label>거주지역:</label>
-      <select id="region">
-        <option value="도시">도시</option>
-        <option value="농어촌">농어촌</option>
-      </select>
-
-      <button type="submit">양육비 계산</button>
-    </form>
+      function downloadPDF() {
+        alert("PDF 다운로드 기능은 추후 추가됩니다. 현재는 Excel만 지원됩니다.");
+      }
+    </script>
   </main>
 </body>
 </html>
