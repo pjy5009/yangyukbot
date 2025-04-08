@@ -1,12 +1,12 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "index.html",
-        "use": "@vercel/static"
-      }
-    ],
     "routes": [
+      {
+        "src": "/(desk-logo\\.png|mobile-logo\\.png)$",
+        "headers": {
+          "Cache-Control": "public, max-age=0, must-revalidate"
+        },
+        "dest": "/public/$1"
+      },
       {
         "src": "/(.*)",
         "dest": "/index.html"

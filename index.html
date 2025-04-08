@@ -28,14 +28,14 @@
       text-align: center;
     }
     header img {
-      max-width: 100%;
-      height: auto;
+      max-height: 60px;
+      margin-bottom: 10px;
     }
     .desktop-logo {
       display: none;
     }
     .mobile-logo {
-      display: none;
+      display: block;
     }
     .contact-info {
       margin-top: 10px;
@@ -84,14 +84,6 @@
       color: green;
       white-space: pre-line;
     }
-    @media screen and (max-width: 600px) {
-      .desktop-logo {
-        display: none;
-      }
-      .mobile-logo {
-        display: block;
-      }
-    }
     @media screen and (min-width: 601px) {
       .desktop-logo {
         display: block;
@@ -105,7 +97,6 @@
     const allowedReferrers = [
       "https://www.lawsolomon.com",
       "https://blog.naver.com/pjy50091",
-      "https://blog.naver.com/pjy5009",
       "https://www.youtube.com/c/솔로몬이혼tv",
       "https://cafe.naver.com/lawsolomon"
     ];
@@ -120,7 +111,7 @@
 <body>
   <header>
     <img src="/desk-logo.png" alt="솔로몬 이혼전문팀 로고" class="desktop-logo" />
-    <img src="/mobile-logo.png" alt="솔로몬 이혼전문팀 모바일 로고" class="mobile-logo" />    
+    <img src="/mobile-logo.png" alt="솔로몬 이혼전문팀 모바일 로고" class="mobile-logo" />
     <h1>이혼전문로펌 솔로몬</h1>
     <div class="contact-info">
       <a href="tel:16444754">상담전화 <strong>1644-4754</strong></a> |
