@@ -10,6 +10,7 @@
       --secondary-color: #f8f9fa;
       --text-color: #333;
     }
+
     body {
       font-family: 'Noto Sans KR', sans-serif;
       margin: 0;
@@ -20,82 +21,70 @@
       flex-direction: column;
       align-items: center;
     }
+
     header {
-      width: 100%;
       background-color: var(--primary-color);
-      padding: 20px;
       color: white;
       text-align: center;
+      padding: 1rem;
     }
-    header img {
+
+    .desktop-logo,
+    .mobile-logo {
+      display: block;
+      margin: 0 auto;
       max-width: 100%;
       height: auto;
     }
-    .desktop-logo {
-      display: none;
-    }
+
     .contact-info {
-      margin-top: 10px;
-      font-size: 1rem;
+      margin-top: 0.5rem;
     }
-    .contact-info a {
-      color: #ffffff;
-      text-decoration: underline;
-      margin: 0 8px;
-    }
+
     main {
-      width: 100%;
-      max-width: 600px;
-      background: white;
-      margin: 20px;
-      padding: 20px;
+      margin: 2rem;
+      padding: 2rem;
+      background-color: white;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
     }
+
     label {
       display: block;
-      margin-top: 10px;
+      margin-top: 1rem;
+      font-weight: bold;
     }
-    input[type="number"], select {
+
+    input, select {
       width: 100%;
-      padding: 10px;
-      margin-top: 4px;
-      box-sizing: border-box;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
+
     button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
+      margin-top: 2rem;
+      padding: 1rem;
       background-color: var(--primary-color);
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-size: 1rem;
     }
-    #result {
-      margin-top: 20px;
+
+    button:hover {
+      background-color: #005bb5;
+    }
+
+    .result {
+      margin-top: 2rem;
       font-weight: bold;
-      color: green;
-      white-space: pre-line;
-    }
-    @media screen and (max-width: 600px) {
-      .desktop-logo {
-        display: none;
-      }
-      .mobile-logo {
-        display: block;
-      }
-    }
-    @media screen and (min-width: 601px) {
-      .desktop-logo {
-        display: block;
-      }
-      .mobile-logo {
-        display: none;
-      }
+      font-size: 1.2rem;
+      color: var(--primary-color);
     }
   </style>
 </head>
@@ -105,83 +94,70 @@
     <img src="/mobile-logo.png" alt="솔로몬 이혼전문팀 모바일 로고" class="mobile-logo" />
     <h1>이혼전문로펌 솔로몬</h1>
     <div class="contact-info">
-      <a href="tel:16444754">상담전화 <strong>1644-4754</strong></a> |
-      <a href="https://www.lawsolomon.com/" target="_blank">솔로몬 홈페이지</a> |
-      <a href="https://blog.naver.com/pjy50091" target="_blank">솔로몬 이혼블로그</a>
+      <a href="tel:16444754" style="color: white;">상담전화 <strong>1644-4754</strong></a> |
+      <a href="https://www.lawsolomon.com/" target="_blank" style="color: white;">솔로몬 홈페이지</a> |
+      <a href="https://blog.naver.com/pjy50091" target="_blank" style="color: white;">솔로몬 이혼블로그</a>
     </div>
   </header>
+
   <main>
     <h2 style="text-align:center;">양육비 AI 계산기</h2>
     <form id="calculator">
-      <label>자녀 수:
-        <input type="number" id="children" min="1" max="4" required />
-      </label>
-      <label>첫째 나이:
-        <input type="number" id="age1" min="0" max="18" />
-      </label>
-      <label>둘째 나이:
-        <input type="number" id="age2" min="0" max="18" />
-      </label>
-      <label>셋째 나이:
-        <input type="number" id="age3" min="0" max="18" />
-      </label>
-      <label>넷째 나이:
-        <input type="number" id="age4" min="0" max="18" />
-      </label>
-      <label>애들 아빠 세전 월소득 (만원):
-        <input type="number" id="fatherIncome" required />
-      </label>
-      <label>애들 엄마 세전 월소득 (만원):
-        <input type="number" id="motherIncome" required />
-      </label>
-      <label>거주지역:
-        <select id="region">
-          <option value="urban">도시</option>
-          <option value="rural">농어촌</option>
-        </select>
-      </label>
-      <button type="button" onclick="calculateSupport()">양육비 계산</button>
+      <label>자녀 수:</label>
+      <input type="number" id="childrenCount" min="1" max="4" required />
+
+      <label>첫째 나이:</label>
+      <input type="number" id="age1" />
+
+      <label>둘째 나이:</label>
+      <input type="number" id="age2" />
+
+      <label>셋째 나이:</label>
+      <input type="number" id="age3" />
+
+      <label>넷째 나이:</label>
+      <input type="number" id="age4" />
+
+      <label>애들 아빠 세전 월소득 (만원):</label>
+      <input type="number" id="fatherIncome" required />
+
+      <label>애들 엄마 세전 월소득 (만원):</label>
+      <input type="number" id="motherIncome" required />
+
+      <label>거주지역:</label>
+      <select id="region">
+        <option value="도시">도시</option>
+        <option value="농어촌">농어촌</option>
+      </select>
+
+      <button type="submit">양육비 계산</button>
     </form>
-    <div id="result"></div>
+    <div class="result" id="result"></div>
   </main>
 
   <script>
-    function calculateSupport() {
-      const children = parseInt(document.getElementById('children').value);
-      const ages = [
-        parseInt(document.getElementById('age1').value) || 0,
-        parseInt(document.getElementById('age2').value) || 0,
-        parseInt(document.getElementById('age3').value) || 0,
-        parseInt(document.getElementById('age4').value) || 0
-      ];
-      const incomeDad = parseInt(document.getElementById('fatherIncome').value);
-      const incomeMom = parseInt(document.getElementById('motherIncome').value);
-      const region = document.getElementById('region').value;
+    document.getElementById('calculator').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const count = parseInt(document.getElementById('childrenCount').value);
+      const income1 = parseInt(document.getElementById('fatherIncome').value);
+      const income2 = parseInt(document.getElementById('motherIncome').value);
 
-      if (children < 1 || children > 4 || isNaN(incomeDad) || isNaN(incomeMom)) {
-        alert("입력값을 다시 확인해주세요.");
+      if (isNaN(count) || isNaN(income1) || isNaN(income2)) {
+        alert("모든 입력값을 정확히 입력해주세요.");
         return;
       }
 
-      const baseAmountPerChild = ages.map((age) => {
-        if (age <= 0) return 0;
-        return age < 5 ? 500000 : age < 12 ? 800000 : 1000000;
-      });
+      const total = income1 + income2;
+      const fatherRatio = income1 / total;
+      const motherRatio = income2 / total;
+      const baseAmount = 100 * count;
 
-      const regionalFactor = region === "urban" ? 1.0 : 0.9;
-      const totalIncome = incomeDad + incomeMom;
-      const dadShare = incomeDad / totalIncome;
-      const momShare = incomeMom / totalIncome;
-
-      const totalSupport = baseAmountPerChild.reduce((sum, amt) => sum + amt, 0) * regionalFactor;
-      const dadSupport = totalSupport * dadShare;
-      const momSupport = totalSupport * momShare;
+      const fatherPay = Math.round(baseAmount * motherRatio);
+      const motherPay = Math.round(baseAmount * fatherRatio);
 
       document.getElementById('result').innerText =
-        `총 양육비: ${totalSupport.toLocaleString()}원/월\n` +
-        `애들 아빠 부담금: ${dadSupport.toLocaleString()}원/월\n` +
-        `애들 엄마 부담금: ${momSupport.toLocaleString()}원/월`;
-    }
+        `예상 양육비: 아빠 ${fatherPay}만원 / 엄마 ${motherPay}만원`;
+    });
   </script>
 </body>
 </html>
