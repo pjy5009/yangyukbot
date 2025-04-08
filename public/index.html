@@ -50,6 +50,12 @@
       border: 1px solid #ffe58f;
       font-size: 16px;
     }
+    .section-box {
+      margin-top: 40px;
+    }
+    .section-box h2 {
+      margin-bottom: 10px;
+    }
     .hidden { display: none; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: center; font-size: 15px; }
@@ -78,6 +84,7 @@
   </header>
 
   <nav>
+    <a href="#intro">홈</a>
     <a href="#calc">양육비 계산</a>
     <a href="#table">기준표 보기</a>
     <a href="#method">계산법 설명</a>
@@ -85,53 +92,67 @@
   </nav>
 
   <main>
-    <div class="notice-box">
-      <p><strong>Tip:</strong> 네이버에서 <strong>“솔로몬 이혼”</strong>이라고 검색하시면<br>이혼에 관한 모든 정보를 확인하실 수 있습니다.</p>
-    </div>
-
-    <section id="premium">
-      <h2>4. 고급 양육비 계산기 (유료)</h2>
-      <p>본 계산기는 자녀의 나이 및 예상되는 부모의 소득변화에 따라 계단식으로 양육비를 정하기 위한 고급기능입니다.<br>
-      그리고 이는 로펌 서휘 이혼전문팀 솔로몬이 제공하는 유료 서비스입니다.<br>
-      이용을 위해 아래에 비밀번호를 입력하시거나, <a href="https://smartstore.naver.com/yourstore" target="_blank">이용권을 구매해주세요</a>.</p>
-
-      <input type="password" id="premiumPassword" placeholder="비밀번호 입력" />
-      <button onclick="unlockPremium()">접속</button>
-
-      <div id="premiumSection" class="hidden">
-        <p>🔓 접속되었습니다! 여기에 고급 계산기 기능이 추가되었습니다.</p>
-
-        <button onclick="downloadExcel()">📥 결과를 Excel로 다운로드</button>
-        <button onclick="downloadPDF()">📥 결과를 PDF로 다운로드</button>
+    <section id="intro">
+      <div class="notice-box">
+        <p><strong>Tip:</strong> 네이버에서 <strong>“솔로몬 이혼”</strong>이라고 검색하시면<br>이혼에 관한 모든 정보를 확인하실 수 있습니다.</p>
+      </div>
+      <div class="section-box">
+        <h2>이용 가능한 기능</h2>
+        <ul>
+          <li><a href="#calc">1. 양육비 계산</a></li>
+          <li><a href="#table">2. 양육비산정기준표 보기 (서울가정법원)</a></li>
+          <li><a href="#method">3. 양육비산정기준표 기준 구체적인 계산법</a></li>
+          <li><a href="#premium">4. 고급 양육비 계산 (시간의 진행에 따른 계단식 양육비 산정 - 유료)</a></li>
+        </ul>
+        <p>실질적인 양육비는 자녀의 나이, 부모의 소득, 거주지역 외에, 자녀의 특별교육비 및 고정적인 치료비를 부담해야 하는지 여부, 부모의 개인회생진행여부, 부부의 재산규모 등의 사유에 따라 변동될 수 있습니다.</p>
       </div>
     </section>
 
-    <script>
-      function unlockPremium() {
-        const pw = document.getElementById('premiumPassword').value;
-        if (pw === '1007') {
-          document.getElementById('premiumSection').classList.remove('hidden');
-        } else {
-          alert('비밀번호가 올바르지 않습니다.');
-        }
-      }
+    <section id="premium">
+      <div class="section-box">
+        <h2>4. 고급 양육비 계산기 (유료)</h2>
+        <p>본 계산기는 자녀의 나이 및 예상되는 부모의 소득변화에 따라 계단식으로 양육비를 정하기 위한 고급기능입니다.<br>
+        그리고 이는 로펌 서휘 이혼전문팀 솔로몬이 제공하는 유료 서비스입니다.<br>
+        이용을 위해 아래에 비밀번호를 입력하시거나, <a href="https://smartstore.naver.com/yourstore" target="_blank">이용권을 구매해주세요</a>.</p>
 
-      function downloadExcel() {
-        const wb = XLSX.utils.book_new();
-        const ws_data = [
-          ["기간", "자녀1 나이", "부친소득", "모친소득", "분담비율", "아빠 부담액", "엄마 부담액"],
-          ["2024~2025", "9세", "500만", "300만", "62.5%", "625,000원", "375,000원"],
-          ["2026~2027", "11세", "600만", "400만", "60.0%", "720,000원", "480,000원"]
-        ];
-        const ws = XLSX.utils.aoa_to_sheet(ws_data);
-        XLSX.utils.book_append_sheet(wb, ws, "양육비 계산 결과");
-        XLSX.writeFile(wb, "양육비_계산결과.xlsx");
-      }
+        <input type="password" id="premiumPassword" placeholder="비밀번호 입력" />
+        <button onclick="unlockPremium()">접속</button>
 
-      function downloadPDF() {
-        alert("PDF 다운로드 기능은 추후 추가됩니다. 현재는 Excel만 지원됩니다.");
-      }
-    </script>
+        <div id="premiumSection" class="hidden">
+          <p>🔓 접속되었습니다! 여기에 고급 계산기 기능이 추가되었습니다.</p>
+
+          <button onclick="downloadExcel()">📥 결과를 Excel로 다운로드</button>
+          <button onclick="downloadPDF()">📥 결과를 PDF로 다운로드</button>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <script>
+    function unlockPremium() {
+      const pw = document.getElementById('premiumPassword').value;
+      if (pw === '1007') {
+        document.getElementById('premiumSection').classList.remove('hidden');
+      } else {
+        alert('비밀번호가 올바르지 않습니다.');
+      }
+    }
+
+    function downloadExcel() {
+      const wb = XLSX.utils.book_new();
+      const ws_data = [
+        ["기간", "자녀1 나이", "부친소득", "모친소득", "분담비율", "아빠 부담액", "엄마 부담액"],
+        ["2024~2025", "9세", "500만", "300만", "62.5%", "625,000원", "375,000원"],
+        ["2026~2027", "11세", "600만", "400만", "60.0%", "720,000원", "480,000원"]
+      ];
+      const ws = XLSX.utils.aoa_to_sheet(ws_data);
+      XLSX.utils.book_append_sheet(wb, ws, "양육비 계산 결과");
+      XLSX.writeFile(wb, "양육비_계산결과.xlsx");
+    }
+
+    function downloadPDF() {
+      alert("PDF 다운로드 기능은 추후 추가됩니다. 현재는 Excel만 지원됩니다.");
+    }
+  </script>
 </body>
 </html>
