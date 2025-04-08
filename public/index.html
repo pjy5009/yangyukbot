@@ -30,6 +30,9 @@
       background: #eee;
       padding: 10px;
       gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
     }
     nav a {
       color: #003366;
@@ -98,12 +101,14 @@
       </div>
       <div class="section-box">
         <h2>이용 가능한 기능</h2>
-        <ul>
-          <li><a href="#calc">1. 양육비 계산</a></li>
-          <li><a href="#table">2. 양육비산정기준표 보기 (서울가정법원)</a></li>
-          <li><a href="#method">3. 양육비산정기준표 기준 구체적인 계산법</a></li>
-          <li><a href="#premium">4. 고급 양육비 계산 (시간의 진행에 따른 계단식 양육비 산정 - 유료)</a></li>
-        </ul>
+        <div class="notice-box">
+          <ul>
+            <li><a href="#calc">1. 양육비 계산</a></li>
+            <li><a href="#table">2. 양육비산정기준표 보기 (서울가정법원)</a></li>
+            <li><a href="#method">3. 양육비산정기준표 기준 구체적인 계산법</a></li>
+            <li><a href="#premium">4. 고급 양육비 계산 (시간의 진행에 따른 계단식 양육비 산정 - 유료)</a></li>
+          </ul>
+        </div>
         <p style="margin-top: 20px; font-weight: bold;">실질적인 양육비는 자녀의 나이, 부모의 소득, 거주지역 외에, 자녀의 특별교육비 및 고정적인 치료비를 부담해야 하는지 여부, 부모의 개인회생진행여부, 부부의 재산규모 등의 사유에 따라 변동될 수 있습니다.</p>
       </div>
     </section>
