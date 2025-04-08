@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>양육비 AI 챗봇</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    #chatbox {
+      height: 300px;
+      overflow-y: scroll;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .user, .bot {
+      margin: 8px 0;
+    }
+    .user { color: blue; }
+    .bot { color: green; }
+  </style>
+</head>
+<body>
+  <h2>양육비 AI 챗봇</h2>
+  <div id="chatbox"></div>
+  <input type="text" id="userInput" placeholder="질문을 입력하세요..." style="width: 80%;" />
+  <button onclick="sendMessage()">보내기</button>
+
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const chatbox = document.getElementById('chatbox');
+      const userText = input.value;
+      if (!userText.trim()) return;
+
+      chatbox.innerHTML += `<div class='user'><strong>사용자:</strong> ${userText}</div>`;
+      input.value = '';
+      chatbox.scrollTop = chatbox.scrollHeight;
+
+      try {
+        const response = await fetch('/api', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: userText })
+        });
+
+        const data = await response.json();
+        chatbox.innerHTML += `<div class='bot'><strong>챗봇:</strong> ${data.reply || '응답 없음'}</div>`;
+      } catch (err) {
+        chatbox.innerHTML += `<div class='bot'><strong>오류:</strong> 서버 응답 실패</div>`;
+      }
+
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+  </script>
+</body>
+</html>
