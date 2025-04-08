@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>양육비 AI 챗봇</title>
+  <title>양육비 계산기</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -14,51 +14,103 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    #chatbox {
-      height: 300px;
-      overflow-y: scroll;
-      border: 1px solid #ddd;
-      padding: 10px;
-      margin-bottom: 10px;
+    label {
+      display: block;
+      margin-top: 10px;
     }
-    .user, .bot {
-      margin: 8px 0;
+    input[type="number"], select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      box-sizing: border-box;
     }
-    .user { color: blue; }
-    .bot { color: green; }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      color: green;
+    }
   </style>
 </head>
 <body>
-  <h2>양육비 AI 챗봇</h2>
-  <div id="chatbox"></div>
-  <input type="text" id="userInput" placeholder="질문을 입력하세요..." style="width: 80%;" />
-  <button onclick="sendMessage()">보내기</button>
+  <h2>양육비 AI 계산기</h2>
+  <form id="calculator">
+    <label>자녀 수:
+      <input type="number" id="children" min="1" max="4" required />
+    </label>
+    <label>첫째 나이:
+      <input type="number" id="age1" min="0" max="18" />
+    </label>
+    <label>둘째 나이:
+      <input type="number" id="age2" min="0" max="18" />
+    </label>
+    <label>셋째 나이:
+      <input type="number" id="age3" min="0" max="18" />
+    </label>
+    <label>넷째 나이:
+      <input type="number" id="age4" min="0" max="18" />
+    </label>
+    <label>애들 아빠 세전 월소득 (만원):
+      <input type="number" id="fatherIncome" required />
+    </label>
+    <label>애들 엄마 세전 월소득 (만원):
+      <input type="number" id="motherIncome" required />
+    </label>
+    <label>거주지역:
+      <select id="region">
+        <option value="urban">도시</option>
+        <option value="rural">농어촌</option>
+      </select>
+    </label>
+    <button type="button" onclick="calculateSupport()">양육비 계산</button>
+  </form>
+  <div id="result"></div>
 
   <script>
-    async function sendMessage() {
-      const input = document.getElementById('userInput');
-      const chatbox = document.getElementById('chatbox');
-      const userText = input.value;
-      if (!userText.trim()) return;
+    function calculateSupport() {
+      const children = parseInt(document.getElementById('children').value);
+      const ages = [
+        parseInt(document.getElementById('age1').value) || 0,
+        parseInt(document.getElementById('age2').value) || 0,
+        parseInt(document.getElementById('age3').value) || 0,
+        parseInt(document.getElementById('age4').value) || 0
+      ];
+      const incomeDad = parseInt(document.getElementById('fatherIncome').value);
+      const incomeMom = parseInt(document.getElementById('motherIncome').value);
+      const region = document.getElementById('region').value;
 
-      chatbox.innerHTML += `<div class='user'><strong>사용자:</strong> ${userText}</div>`;
-      input.value = '';
-      chatbox.scrollTop = chatbox.scrollHeight;
-
-      try {
-        const response = await fetch('/api', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: userText })
-        });
-
-        const data = await response.json();
-        chatbox.innerHTML += `<div class='bot'><strong>챗봇:</strong> ${data.reply || '응답 없음'}</div>`;
-      } catch (err) {
-        chatbox.innerHTML += `<div class='bot'><strong>오류:</strong> 서버 응답 실패</div>`;
+      if (children < 1 || children > 4 || isNaN(incomeDad) || isNaN(incomeMom)) {
+        alert("입력값을 다시 확인해주세요.");
+        return;
       }
 
-      chatbox.scrollTop = chatbox.scrollHeight;
+      const baseAmountPerChild = ages.map((age) => {
+        if (age <= 0) return 0;
+        return age < 5 ? 500000 : age < 12 ? 800000 : 1000000;
+      });
+
+      const regionalFactor = region === "urban" ? 1.0 : 0.9;
+      const totalIncome = incomeDad + incomeMom;
+      const dadShare = incomeDad / totalIncome;
+      const momShare = incomeMom / totalIncome;
+
+      const totalSupport = baseAmountPerChild.reduce((sum, amt) => sum + amt, 0) * regionalFactor;
+      const dadSupport = totalSupport * dadShare;
+      const momSupport = totalSupport * momShare;
+
+      document.getElementById('result').innerText =
+        `총 양육비: ${totalSupport.toLocaleString()}원/월\n` +
+        `애들 아빠 부담금: ${dadSupport.toLocaleString()}원/월\n` +
+        `애들 엄마 부담금: ${momSupport.toLocaleString()}원/월`;
     }
   </script>
 </body>
