@@ -28,8 +28,11 @@
       text-align: center;
     }
     header img {
-      max-width: 120px;
-      margin-bottom: 10px;
+      max-width: 100%;
+      height: auto;
+    }
+    .desktop-logo {
+      display: none;
     }
     .contact-info {
       margin-top: 10px;
@@ -79,12 +82,19 @@
       white-space: pre-line;
     }
     @media screen and (max-width: 600px) {
-      main {
-        margin: 10px;
-        padding: 15px;
+      .desktop-logo {
+        display: none;
       }
-      button {
-        font-size: 14px;
+      .mobile-logo {
+        display: block;
+      }
+    }
+    @media screen and (min-width: 601px) {
+      .desktop-logo {
+        display: block;
+      }
+      .mobile-logo {
+        display: none;
       }
     }
   </style>
@@ -106,14 +116,16 @@
 </head>
 <body>
   <header>
-    <img src="https://www.lawsolomon.com/img/logo.png" alt="솔로몬 이혼전문팀 로고" />
+    <img src="데스크용 솔로몬 로고.PNG" alt="솔로몬 이혼전문팀 로고" class="desktop-logo" />
+    <img src="모바일용 로고.PNG" alt="솔로몬 이혼전문팀 모바일 로고" class="mobile-logo" />
     <h1>이혼전문로펌 솔로몬</h1>
     <div class="contact-info">
-      상담전화 <strong>1644-4754</strong> | 
+      <a href="tel:16444754">상담전화 <strong>1644-4754</strong></a> |
       <a href="https://www.lawsolomon.com/" target="_blank">솔로몬 홈페이지</a> |
-      <a href="https://blog.naver.com/pjy50091" target="_blank">공식 블로그</a>
+      <a href="https://blog.naver.com/pjy50091" target="_blank">솔로몬 이혼블로그</a>
     </div>
   </header>
+
   <main>
     <h2 style="text-align:center;">양육비 AI 계산기</h2>
     <form id="calculator">
@@ -148,6 +160,7 @@
     </form>
     <div id="result"></div>
   </main>
+
   <script>
     function calculateSupport() {
       const children = parseInt(document.getElementById('children').value);
@@ -160,21 +173,26 @@
       const incomeDad = parseInt(document.getElementById('fatherIncome').value);
       const incomeMom = parseInt(document.getElementById('motherIncome').value);
       const region = document.getElementById('region').value;
+
       if (children < 1 || children > 4 || isNaN(incomeDad) || isNaN(incomeMom)) {
         alert("입력값을 다시 확인해주세요.");
         return;
       }
+
       const baseAmountPerChild = ages.map((age) => {
         if (age <= 0) return 0;
         return age < 5 ? 500000 : age < 12 ? 800000 : 1000000;
       });
+
       const regionalFactor = region === "urban" ? 1.0 : 0.9;
       const totalIncome = incomeDad + incomeMom;
       const dadShare = incomeDad / totalIncome;
       const momShare = incomeMom / totalIncome;
+
       const totalSupport = baseAmountPerChild.reduce((sum, amt) => sum + amt, 0) * regionalFactor;
       const dadSupport = totalSupport * dadShare;
       const momSupport = totalSupport * momShare;
+
       document.getElementById('result').innerText =
         `총 양육비: ${totalSupport.toLocaleString()}원/월\n` +
         `애들 아빠 부담금: ${dadSupport.toLocaleString()}원/월\n` +
