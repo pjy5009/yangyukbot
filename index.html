@@ -5,12 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>양육비 계산기</title>
   <style>
+    :root {
+      --primary-color: #0066cc;
+      --secondary-color: #f8f9fa;
+      --text-color: #333;
+    }
     body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 40px auto;
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      width: 100%;
+      background-color: var(--primary-color);
       padding: 20px;
-      border: 1px solid #ccc;
+      color: white;
+      text-align: center;
+    }
+    header img {
+      max-width: 120px;
+      margin-bottom: 10px;
+    }
+    .contact-info {
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+    .contact-info a {
+      color: #ffffff;
+      text-decoration: underline;
+      margin: 0 8px;
+    }
+    main {
+      width: 100%;
+      max-width: 600px;
+      background: white;
+      margin: 20px;
+      padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
@@ -20,15 +55,18 @@
     }
     input[type="number"], select {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       margin-top: 4px;
       box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     button {
       margin-top: 20px;
-      padding: 10px 20px;
+      width: 100%;
+      padding: 12px;
       font-size: 16px;
-      background-color: #007BFF;
+      background-color: var(--primary-color);
       color: white;
       border: none;
       border-radius: 5px;
@@ -38,43 +76,78 @@
       margin-top: 20px;
       font-weight: bold;
       color: green;
+      white-space: pre-line;
+    }
+    @media screen and (max-width: 600px) {
+      main {
+        margin: 10px;
+        padding: 15px;
+      }
+      button {
+        font-size: 14px;
+      }
     }
   </style>
+  <script>
+    const allowedReferrers = [
+      "https://www.lawsolomon.com",
+      "https://blog.naver.com/pjy50091",
+      "https://blog.naver.com/pjy5009",
+      "https://www.youtube.com/c/솔로몬이혼tv",
+      "https://cafe.naver.com/lawsolomon"
+    ];
+    const referrer = document.referrer;
+    const isAllowed = allowedReferrers.some(url => referrer.startsWith(url));
+    if (!isAllowed && referrer !== "") {
+      document.write("<h2 style='color:red;text-align:center;'>⚠️ 접근이 허용되지 않았습니다.</h2>");
+      throw new Error("Unauthorized referrer");
+    }
+  </script>
 </head>
 <body>
-  <h2>양육비 AI 계산기</h2>
-  <form id="calculator">
-    <label>자녀 수:
-      <input type="number" id="children" min="1" max="4" required />
-    </label>
-    <label>첫째 나이:
-      <input type="number" id="age1" min="0" max="18" />
-    </label>
-    <label>둘째 나이:
-      <input type="number" id="age2" min="0" max="18" />
-    </label>
-    <label>셋째 나이:
-      <input type="number" id="age3" min="0" max="18" />
-    </label>
-    <label>넷째 나이:
-      <input type="number" id="age4" min="0" max="18" />
-    </label>
-    <label>애들 아빠 세전 월소득 (만원):
-      <input type="number" id="fatherIncome" required />
-    </label>
-    <label>애들 엄마 세전 월소득 (만원):
-      <input type="number" id="motherIncome" required />
-    </label>
-    <label>거주지역:
-      <select id="region">
-        <option value="urban">도시</option>
-        <option value="rural">농어촌</option>
-      </select>
-    </label>
-    <button type="button" onclick="calculateSupport()">양육비 계산</button>
-  </form>
-  <div id="result"></div>
-
+  <header>
+    <img src="https://www.lawsolomon.com/img/logo.png" alt="솔로몬 이혼전문팀 로고" />
+    <h1>이혼전문로펌 솔로몬</h1>
+    <div class="contact-info">
+      상담전화 <strong>1644-4754</strong> | 
+      <a href="https://www.lawsolomon.com/" target="_blank">솔로몬 홈페이지</a> |
+      <a href="https://blog.naver.com/pjy50091" target="_blank">공식 블로그</a>
+    </div>
+  </header>
+  <main>
+    <h2 style="text-align:center;">양육비 AI 계산기</h2>
+    <form id="calculator">
+      <label>자녀 수:
+        <input type="number" id="children" min="1" max="4" required />
+      </label>
+      <label>첫째 나이:
+        <input type="number" id="age1" min="0" max="18" />
+      </label>
+      <label>둘째 나이:
+        <input type="number" id="age2" min="0" max="18" />
+      </label>
+      <label>셋째 나이:
+        <input type="number" id="age3" min="0" max="18" />
+      </label>
+      <label>넷째 나이:
+        <input type="number" id="age4" min="0" max="18" />
+      </label>
+      <label>애들 아빠 세전 월소득 (만원):
+        <input type="number" id="fatherIncome" required />
+      </label>
+      <label>애들 엄마 세전 월소득 (만원):
+        <input type="number" id="motherIncome" required />
+      </label>
+      <label>거주지역:
+        <select id="region">
+          <option value="urban">도시</option>
+          <option value="rural">농어촌</option>
+        </select>
+      </label>
+      <button type="button" onclick="calculateSupport()">양육비 계산</button>
+    </form>
+    <div id="result"></div>
+  </main>
   <script>
     function calculateSupport() {
       const children = parseInt(document.getElementById('children').value);
@@ -87,26 +160,21 @@
       const incomeDad = parseInt(document.getElementById('fatherIncome').value);
       const incomeMom = parseInt(document.getElementById('motherIncome').value);
       const region = document.getElementById('region').value;
-
       if (children < 1 || children > 4 || isNaN(incomeDad) || isNaN(incomeMom)) {
         alert("입력값을 다시 확인해주세요.");
         return;
       }
-
       const baseAmountPerChild = ages.map((age) => {
         if (age <= 0) return 0;
         return age < 5 ? 500000 : age < 12 ? 800000 : 1000000;
       });
-
       const regionalFactor = region === "urban" ? 1.0 : 0.9;
       const totalIncome = incomeDad + incomeMom;
       const dadShare = incomeDad / totalIncome;
       const momShare = incomeMom / totalIncome;
-
       const totalSupport = baseAmountPerChild.reduce((sum, amt) => sum + amt, 0) * regionalFactor;
       const dadSupport = totalSupport * dadShare;
       const momSupport = totalSupport * momShare;
-
       document.getElementById('result').innerText =
         `총 양육비: ${totalSupport.toLocaleString()}원/월\n` +
         `애들 아빠 부담금: ${dadSupport.toLocaleString()}원/월\n` +
