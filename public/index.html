@@ -173,116 +173,19 @@
     <div id="result"></div>
 
     <div class="info-section">
-      <img src="/table-main.png" style="width: 100%; max-width: 100%;" alt="양육비산정기준표"/>
-      <p style="text-align: center; font-weight: bold;">양육비산정기준표</p>
-
-      <img src="/table-rate.png" style="width: 100%; max-width: 100%; margin-top: 30px;" alt="양육비산정기준 비율표"/>
-      <p style="text-align: center; font-weight: bold;">양육비산정기준 비율표</p>
-
-      <h3 style="margin-top: 40px;">양육비 계산 AI가 양육비를 산정하는 로직</h3>
-      <ol>
-        <li>서울가정법원이 2021년 개정·공표하여 2022년 3월 1일부터 현재까지 적용되고 개정된 양육비산정기준표를 기준으로 산정</li>
-        <li>기준표의 가로축은 부부의 합산소득을 구간별로 구분해 놓았는데, 여기서 소득이란 근로소득 또는 영업소득 그리고 부동산 임대수입, 이자수입 등 모든 수입을 합산한 순수입 총액을 말하며, 일반적으로 세전소득을 적용한다. 그리고 정부보조금이나 연금 등을 수령하는 경우에는 그 금액도 포함</li>
-        <li>기준표의 세로축은 자녀의 나이 구간</li>
-        <li>양육비산정기준표보다는 비율표에 따라 양육비를 산정하는 것이 훨씬 정확하기 때문에 비율표에 따라 양육비 산정</li>
-        <li>양육비를 정할 때는 다음과 같은 몇 가지 가감요소들을 고려
-          <ol type="①">
-            <li>거주지역이 도시인 경우는 표준양육비에서 7.9%를 가산하고, 농어촌인 경우는 16.5%를 감산.</li>
-            <li>양육자녀가 1인인 경우는 표준양육비에서 6.53%를 가산, 3명 이상인 경우는 21.7%를 감산.</li>
-            <li>자녀에게 중증 질환 또는 장애, 특이체질 등으로 인한 고액의 치료비가 필요한 경우 가산 또는 감산.</li>
-            <li>고액 교육비 지출에 합의한 경우 또는 자녀의 적성·재능에 따라 교육이 필요하다고 인정되는 경우에는 일정 금액을 가산. 이 경우 솔로몬과 상담 필요.</li>
-            <li>부부의 재산상황에 따라 양육비를 가산 또는 감산할 수 있으며, 이 역시 전문가의 상담이 필요.</li>
-            <li>비양육자가 회생절차를 진행 중인 경우 감산, 종료된 후에는 해당 부분만큼 가산. 이 경우도 전문가 상담 필요.</li>
-            <li>무자력자인 부모라도 최소한의 양육비는 반드시 지급. 부부합산소득 0~199만원 기준 최하한 금액 적용.</li>
-          </ol>
-        </li>
-      </ol>
-
-      <h4>적용사례</h4>
-      <p>
-        가족관계 : 부부와 만15세인 딸 1명, 만8세인 아들 1명이 있는 경우<br>
-        소득 : 처 월평균 180만원, 남편 월평균 270만원<br>
-        자녀 양육자 : 처<br>
-        <br>
-        ① 딸(15세) 표준양육비 : 1,402,000원<br>
-        ② 아들(8세) 표준양육비 : 1,140,000원<br>
-        ③ 총양육비 : 2,542,000원<br>
-        ④ 감산·가산 요소가 없다면 이 금액 유지<br>
-        ⑤ 남편 분담비율 : 60% (270 / 450)<br>
-        ⑥ 남편 지급액 : 1,525,200원
-      </p>
-
-      <h4>유의사항</h4>
-      <p>
-        양육비산정기준표는 서울가정법원 내부 참고용으로 법적 구속력은 없습니다.<br>
-        재판 시 상황에 따라 실제 판결 금액은 기준표와 다를 수 있으며,<br>
-        과거 양육비 소급 지급이나 재산분할·위자료와 양육비를 연동해 합의한 경우 등은 기준표 적용이 어려울 수 있습니다.
-      </p>
+      <img src="/table-main.png" alt="양육비산정기준표" style="width: 100%; margin-bottom: 10px;">
+      <div style="text-align:center; font-weight: bold; margin-bottom: 20px;">양육비산정기준표</div>
+      <img src="/table-rate.png" alt="양육비산정기준 비율표" style="width: 100%; margin-bottom: 10px;">
+      <div style="text-align:center; font-weight: bold; margin-bottom: 30px;">양육비산정기준 비율표</div>
+      <div id="logic-text">
+        <h4>양육비 계산 AI가 양육비를 산정하는 로직</h4>
+        <p>1. 서울가정법원이 2021년 개정·공표하여 2022년 3월 1일부터 현재까지 적용되고 개정된 양육비산정기준표를 기준으로 산정<br>
+2. 기준표의 가로축은 부부의 합산소득을 구간별로 구분해 놓았는데, 여기서 소득이란 근로소득 또는 영업소득 그리고 부동산 임대수입, 이자수입 등 모든 수입을 합산한 순수입 총액을 말하며, 일반적으로 세전소득을 적용한다. 그리고 정부보조금이나 연금 등을 수령하는 경우에는 그 금액도 포함<br>
+3. 기준표의 세로축은 자녀의 나이 구간<br>
+4. 양육비산정기준표보다는 비율표에 따라 양육비를 산정하는 것이 훨씬 정확하기 때문에 비율표에 따라 양육비 산정<br>
+5. 양육비를 정할 때는 다음과 같은 몇 가지 가감요소들을 고려<br>① 거주지역이 도시인 경우는 표준양육비에서 7.9%를 가산하고, 농어촌인 경우는 16.5%를 감산.<br>② 양육비산정기준표는 양육자녀가 2인인 가구의 자녀 1인당 평균양육비를 기준으로 삼은 것이므로, 양육자녀가 1인인 경우는 표준양육비에서 6.53%를 가산하고, 3명 이상인 경우는 21.7%를 감산.<br>③ 자녀에게 중증 질환 또는 장애, 특이체질 등으로 인한 고액의 치료비가 필요한 경우에는 가산해야 하는데, 그 가산비율이 딱 정해진 바는 없으므로 실제 필요한 치료비 액수를 고려해서 적절한 금액을 가산하거나 감산.<br>④ 부부가 이혼 전에 통상적인 교육비를 초과하는 고액의 교육비를 지출하기로 합의한 경우 및 합의가 없는 경우에도 그 교육이 자녀의 적성과 재능 등에 비추어 볼 때 자녀의 복리를 위하여 합리적인 범위에서 필요한 교육에 해당한다고 인정되는 경우에는 표준양육비에 일정 금액을 가산해야 하는데, 이때 가산비율이 정해진 것은 아니므로 그 필요성 및 교육비 금액을 고려하여 적절한 금액을 가산. 이에 대해서는 솔로몬과 상담이 필요<br>⑤ 기준표는 부부의 소득에 따라 양육비가 정해지는 방식이지만, 양육비를 정할 때 부부의 재산상황을 고려하지 않을 수 없다. 따라서 부부의 재산상황을 고려할 때 양육비산정기준표상의 표준양육비가 불합리하다고 판단되는 경우에는 이를 적절하게 가산하거나 감산해야 하는데, 그 감산 또는 가산해야 하는 비율이 정확히 정해져 있는 것은 아니기 때문에 적절한 비율로 가산하거나 감산해야 하는데, 어려움이 있을때는 전문가의 상담이 필요.<br>⑥ 비양육자가 회생절차를 진행 중이거나 회생계획인가결정을 받은 상황이라면 양육비를 감산하고, 회생절차가 종료된 시기부터는 앞서 감산된 부분만큼을 가산해야 하는데, 이때 가산 및 감산비율이 정확하게 정해진 것은 아니기 때문에 변제금액, 소득, 변제금을 공제한 금액, 변제기간 등을 고려해서 적절한 금액을 가산하고 감산. 이 경우에도 솔로몬과 상담 필요<br>⑦ 소득과 재산이 전혀 없는 무자력자인 부모라 하더라도 최소한의 양육비만큼은 반드시 지급해야 하는데, 그 금액은 부부합산소득 0~199만원에 해당하는 양육비구간에서 최하한으로 표시된 금액.<br><br>[적용사례]<br>자녀가 2명인 경우에 양육비산정기준표를 적용하여 양육비를 산정하는 예를 들어 보자면,<br>① 가족관계 : 부부와 슬하에 만15세인 딸 1명과 만8세인 아들 1명이 있는 가족관계<br>② 소 득 : 처는 월평균 180만 원, 남편은 월평균 270만 원<br>③ 자녀들의 양육자 : 처<br><계산><br>① 15세인 딸의 표준양육비 : 1,402,000원 (자녀나이 15~18세 및 부모합산소득 400~499만원의 교차구간)<br>② 8세인 아들의 표준 양육비 : 1,140,000원(자녀나이 6~8세 및 부모합산소득 400~499만원의 교차구간)<br>③ 자녀들에 대한 표준양육비 총액 : 2,542,000원(=1,402,000원 + 1,140,000원)<br>④ 가산, 감산 요소가 있다면 결정된 표준양육비에 이를 고려하여 양육비총액을 확정하되, 가감산 요소가 없다면 표준양육비 총액은 2,542,000원이 된다.<br>⑤ 비양육자인 남편의 양육비 분담비율 : 60%{=[270만 원 /(180만원 +270만원) × 100]}<br>⑥ 따라서 이혼 후 남편이 처에게 지급할 양육비는 1,525,200원(=2,542,000원 × 60%)<br><br>[유의사항]<br>양육비산정기준표는 서울가정법원이 서울가정법원 내부에서만 적용하고자 만든 내부 자료에 불과하다. 따라서 당사자가 양육비에 관하여 협의를 할 때나 법원이 양육비 금액을 결정할 때 중요한 참고자료가 될 수는 있으나 법적 구속력이 있는 것은 아님.<br>또한 양육비산정기준표에는 구체적 양육상황의 특수성이 반영되어 있지 않으므로, 법원에서 구체적 상황을 고려하여 양육비산정기준표와 상이한 양육비를 결정할 수 있고, 실제로 위 기준표 그대로 판결되는 경우는 그리 많지 않음.</p>
+      </div>
     </div>
   </main>
-
-  <script>
-    let childCount = 0;
-
-    function addChildAge() {
-      const container = document.getElementById('children-ages');
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.min = '0';
-      input.max = '30';
-      input.placeholder = '자녀의 만 나이';
-      input.classList.add('child-age-input');
-      input.name = `child-age-${childCount++}`;
-      container.appendChild(input);
-    }
-
-    document.getElementById("calculator").addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const ageInputs = document.querySelectorAll(".child-age-input");
-      const ages = Array.from(ageInputs).map(input => parseInt(input.value));
-
-      const dad = parseInt(document.getElementById("dad-income").value);
-      const mom = parseInt(document.getElementById("mom-income").value);
-      const region = document.getElementById("region").value;
-      const total = dad + mom;
-      const ratioDad = (dad / total).toFixed(2);
-      const ratioMom = (mom / total).toFixed(2);
-
-      let baseCost = 120;
-      let results = "<h3>자녀별 예상 양육비 분담 결과</h3>";
-      let totalDad = 0;
-      let totalMom = 0;
-      const count = ages.length;
-
-      for (let i = 0; i < count; i++) {
-        let cost = baseCost;
-        if (region === "도시") cost *= 1.079;
-        else if (region === "농어촌") cost *= 0.835;
-        if (count === 1) cost *= 1.0653;
-        else if (count >= 3) cost *= 0.783;
-
-        const dadShare = Math.round(cost * ratioDad * 10000);
-        const momShare = Math.round(cost * ratioMom * 10000);
-
-        totalDad += dadShare;
-        totalMom += momShare;
-
-        results += `
-          <p><strong>${ages[i]}세 자녀:</strong><br>
-          아버님 부담액: ${dadShare.toLocaleString()} 원<br>
-          어머님 부담액: ${momShare.toLocaleString()} 원</p>
-        `;
-      }
-
-      results += `<hr><p><strong>총 합계:</strong><br>
-        아버님: ${totalDad.toLocaleString()} 원<br>
-        어머님: ${totalMom.toLocaleString()} 원</p>`;
-
-      document.getElementById("result").innerHTML = results;
-    });
-
-    window.onload = () => addChildAge();
-  </script>
 </body>
 </html>
