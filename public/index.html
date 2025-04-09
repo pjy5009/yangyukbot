@@ -149,7 +149,7 @@
     }
 
     window.onload = function() {
-      addChildAge(); // 기본 자녀 입력 한 개 추가
+      addChildAge();
 
       document.getElementById('add-child').addEventListener('click', function() {
         addChildAge();
@@ -191,6 +191,13 @@
 
         html += `<hr><p><strong>총 합계:</strong><br>아버님: ${totalDad.toLocaleString()} 원<br>어머님: ${totalMom.toLocaleString()} 원</p>`;
 
+        html += `<div class="info-section">
+          <img src="public/table-main.png" alt="양육비산정기준표" style="width:100%;"><p>양육비산정기준표</p>
+          <img src="public/table-rate.png" alt="양육비산정기준 비율표" style="width:100%;"><p>양육비산정기준 비율표</p>
+          <h3>양육비 계산 AI가 양육비를 산정하는 로직</h3>
+          <p>1. 서울가정법원이 2021년 개정·공표하여 ... (전체 설명을 여기에 그대로 삽입)</p>
+        </div>`;
+
         document.getElementById('result').innerHTML = html;
       });
     }
@@ -228,6 +235,12 @@
       <button type="submit">양육비 계산</button>
     </form>
     <div id="result"></div>
+    <div class="info-section">
+      <img src="public/table-main.png" alt="양육비산정기준표" style="width:100%;">
+      <p>양육비산정기준표</p>
+      <img src="public/table-rate.png" alt="양육비산정기준 비율표" style="width:100%;">
+      <p>양육비산정기준 비율표</p>
+    </div>
   </main>
 </body>
 </html>
