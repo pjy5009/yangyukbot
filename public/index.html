@@ -103,6 +103,37 @@
       margin-right: auto;
       border-radius: 8px;
     }
+
+    .child-age-block {
+      display: flex;
+      align-items: center;
+    }
+
+    .child-age-input {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    .add-btn {
+      display: inline-block;
+      margin: 5px 0;
+      cursor: pointer;
+      background: #005bbb;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .info-section {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      font-size: 15px;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -120,25 +151,14 @@
   <main>
     <h2 style="text-align:center;">양육비 AI 계산기</h2>
     <form id="calculator">
-      <label>자녀 수:</label>
-      <input type="number" id="child-count" min="1" max="4" required />
+      <label>자녀 나이:</label>
+      <div id="children-ages"></div>
+      <div class="add-btn" onclick="addChildAge()">+ 자녀 추가</div>
 
-      <label>첫째 나이:</label>
-      <input type="number" id="age1" min="0" max="30" />
-
-      <label>둘째 나이:</label>
-      <input type="number" id="age2" min="0" max="30" />
-
-      <label>셋째 나이:</label>
-      <input type="number" id="age3" min="0" max="30" />
-
-      <label>넷째 나이:</label>
-      <input type="number" id="age4" min="0" max="30" />
-
-      <label>애들 아빠 세전 월소득 (만원):</label>
+      <label>아버님 세전 월소득 (만원):</label>
       <input type="number" id="dad-income" required />
 
-      <label>애들 엄마 세전 월소득 (만원):</label>
+      <label>어머님 세전 월소득 (만원):</label>
       <input type="number" id="mom-income" required />
 
       <label>거주지역:</label>
@@ -151,13 +171,77 @@
     </form>
 
     <div id="result"></div>
+
+    <div class="info-section">
+      <img src="/table-main.png" style="width: 100%; max-width: 100%;" alt="양육비산정기준표"/>
+      <p style="text-align: center; font-weight: bold;">양육비산정기준표</p>
+
+      <img src="/table-rate.png" style="width: 100%; max-width: 100%; margin-top: 30px;" alt="양육비산정기준 비율표"/>
+      <p style="text-align: center; font-weight: bold;">양육비산정기준 비율표</p>
+
+      <h3 style="margin-top: 40px;">양육비 계산 AI가 양육비를 산정하는 로직</h3>
+      <ol>
+        <li>서울가정법원이 2021년 개정·공표하여 2022년 3월 1일부터 현재까지 적용되고 개정된 양육비산정기준표를 기준으로 산정</li>
+        <li>기준표의 가로축은 부부의 합산소득을 구간별로 구분해 놓았는데, 여기서 소득이란 근로소득 또는 영업소득 그리고 부동산 임대수입, 이자수입 등 모든 수입을 합산한 순수입 총액을 말하며, 일반적으로 세전소득을 적용한다. 그리고 정부보조금이나 연금 등을 수령하는 경우에는 그 금액도 포함</li>
+        <li>기준표의 세로축은 자녀의 나이 구간</li>
+        <li>양육비산정기준표보다는 비율표에 따라 양육비를 산정하는 것이 훨씬 정확하기 때문에 비율표에 따라 양육비 산정</li>
+        <li>양육비를 정할 때는 다음과 같은 몇 가지 가감요소들을 고려
+          <ol type="①">
+            <li>거주지역이 도시인 경우는 표준양육비에서 7.9%를 가산하고, 농어촌인 경우는 16.5%를 감산.</li>
+            <li>양육자녀가 1인인 경우는 표준양육비에서 6.53%를 가산, 3명 이상인 경우는 21.7%를 감산.</li>
+            <li>자녀에게 중증 질환 또는 장애, 특이체질 등으로 인한 고액의 치료비가 필요한 경우 가산 또는 감산.</li>
+            <li>고액 교육비 지출에 합의한 경우 또는 자녀의 적성·재능에 따라 교육이 필요하다고 인정되는 경우에는 일정 금액을 가산. 이 경우 솔로몬과 상담 필요.</li>
+            <li>부부의 재산상황에 따라 양육비를 가산 또는 감산할 수 있으며, 이 역시 전문가의 상담이 필요.</li>
+            <li>비양육자가 회생절차를 진행 중인 경우 감산, 종료된 후에는 해당 부분만큼 가산. 이 경우도 전문가 상담 필요.</li>
+            <li>무자력자인 부모라도 최소한의 양육비는 반드시 지급. 부부합산소득 0~199만원 기준 최하한 금액 적용.</li>
+          </ol>
+        </li>
+      </ol>
+
+      <h4>적용사례</h4>
+      <p>
+        가족관계 : 부부와 만15세인 딸 1명, 만8세인 아들 1명이 있는 경우<br>
+        소득 : 처 월평균 180만원, 남편 월평균 270만원<br>
+        자녀 양육자 : 처<br>
+        <br>
+        ① 딸(15세) 표준양육비 : 1,402,000원<br>
+        ② 아들(8세) 표준양육비 : 1,140,000원<br>
+        ③ 총양육비 : 2,542,000원<br>
+        ④ 감산·가산 요소가 없다면 이 금액 유지<br>
+        ⑤ 남편 분담비율 : 60% (270 / 450)<br>
+        ⑥ 남편 지급액 : 1,525,200원
+      </p>
+
+      <h4>유의사항</h4>
+      <p>
+        양육비산정기준표는 서울가정법원 내부 참고용으로 법적 구속력은 없습니다.<br>
+        재판 시 상황에 따라 실제 판결 금액은 기준표와 다를 수 있으며,<br>
+        과거 양육비 소급 지급이나 재산분할·위자료와 양육비를 연동해 합의한 경우 등은 기준표 적용이 어려울 수 있습니다.
+      </p>
+    </div>
   </main>
 
   <script>
+    let childCount = 0;
+
+    function addChildAge() {
+      const container = document.getElementById('children-ages');
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = '0';
+      input.max = '30';
+      input.placeholder = '자녀의 만 나이';
+      input.classList.add('child-age-input');
+      input.name = `child-age-${childCount++}`;
+      container.appendChild(input);
+    }
+
     document.getElementById("calculator").addEventListener("submit", function(event) {
       event.preventDefault();
 
-      const count = parseInt(document.getElementById("child-count").value);
+      const ageInputs = document.querySelectorAll(".child-age-input");
+      const ages = Array.from(ageInputs).map(input => parseInt(input.value));
+
       const dad = parseInt(document.getElementById("dad-income").value);
       const mom = parseInt(document.getElementById("mom-income").value);
       const region = document.getElementById("region").value;
@@ -165,25 +249,40 @@
       const ratioDad = (dad / total).toFixed(2);
       const ratioMom = (mom / total).toFixed(2);
 
-      let baseCost = 120; // 기본값 예시: 1인당 120만원
-      let cost = baseCost * count;
+      let baseCost = 120;
+      let results = "<h3>자녀별 예상 양육비 분담 결과</h3>";
+      let totalDad = 0;
+      let totalMom = 0;
+      const count = ages.length;
 
-      // 가산/감산 적용
-      if (region === "도시") cost *= 1.079;
-      else if (region === "농어촌") cost *= 0.835;
-      if (count === 1) cost *= 1.0653;
-      else if (count >= 3) cost *= 0.783;
+      for (let i = 0; i < count; i++) {
+        let cost = baseCost;
+        if (region === "도시") cost *= 1.079;
+        else if (region === "농어촌") cost *= 0.835;
+        if (count === 1) cost *= 1.0653;
+        else if (count >= 3) cost *= 0.783;
 
-      const dadShare = Math.round(cost * ratioDad * 10000); // 원 단위
-      const momShare = Math.round(cost * ratioMom * 10000);
+        const dadShare = Math.round(cost * ratioDad * 10000);
+        const momShare = Math.round(cost * ratioMom * 10000);
 
-      document.getElementById("result").innerHTML = `
-        <h3>예상 양육비 분담 결과</h3>
-        <p>총 양육비: <strong>${Math.round(cost * 10000).toLocaleString()}</strong> 원</p>
-        <p>아버지 부담액: <strong>${dadShare.toLocaleString()}</strong> 원</p>
-        <p>어머니 부담액: <strong>${momShare.toLocaleString()}</strong> 원</p>
-      `;
+        totalDad += dadShare;
+        totalMom += momShare;
+
+        results += `
+          <p><strong>${ages[i]}세 자녀:</strong><br>
+          아버님 부담액: ${dadShare.toLocaleString()} 원<br>
+          어머님 부담액: ${momShare.toLocaleString()} 원</p>
+        `;
+      }
+
+      results += `<hr><p><strong>총 합계:</strong><br>
+        아버님: ${totalDad.toLocaleString()} 원<br>
+        어머님: ${totalMom.toLocaleString()} 원</p>`;
+
+      document.getElementById("result").innerHTML = results;
     });
+
+    window.onload = () => addChildAge();
   </script>
 </body>
 </html>
