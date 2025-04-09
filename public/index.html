@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>양육비 계산기 - 이혼전문로펌 솔로몬</title>
+  <title>양육비 계산기 - 로펌 서휘 이혼전문팀 솔로몬</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -92,17 +92,28 @@
     button:hover {
       background-color: #004999;
     }
+
+    #result {
+      margin-top: 20px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
   <header>
     <img src="/desk-logo.png" alt="솔로몬 이혼전문팀 로고" class="desktop-logo" />
     <img src="/mobile-logo.png" alt="솔로몬 이혼전문팀 모바일 로고" class="mobile-logo" />
-    <h1>이혼전문로펌 솔로몬</h1>
+    <h1>로펌 서휘 이혼전문팀 솔로몬</h1>
     <div class="contact-info">
-      <a href="tel:16444754">상담전화 <strong>1644-4754</strong></a> |
       <a href="https://www.lawsolomon.com/" target="_blank">솔로몬 홈페이지</a> |
-      <a href="https://blog.naver.com/pjy50091" target="_blank">솔로몬 이혼블로그</a>
+      <a href="https://blog.naver.com/pjy50091" target="_blank">솔로몬 공식블로그</a> |
+      <a href="tel:16444754">상담전화 <strong>1644-4754</strong></a>
     </div>
   </header>
 
@@ -138,6 +149,41 @@
 
       <button type="submit">양육비 계산</button>
     </form>
+
+    <div id="result"></div>
   </main>
+
+  <script>
+    document.getElementById("calculator").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const count = parseInt(document.getElementById("child-count").value);
+      const dad = parseInt(document.getElementById("dad-income").value);
+      const mom = parseInt(document.getElementById("mom-income").value);
+      const region = document.getElementById("region").value;
+      const total = dad + mom;
+      const ratioDad = (dad / total).toFixed(2);
+      const ratioMom = (mom / total).toFixed(2);
+
+      let baseCost = 120; // 기본값 예시: 1인당 120만원
+      let cost = baseCost * count;
+
+      // 가산/감산 적용
+      if (region === "도시") cost *= 1.079;
+      else if (region === "농어촌") cost *= 0.835;
+      if (count === 1) cost *= 1.0653;
+      else if (count >= 3) cost *= 0.783;
+
+      const dadShare = Math.round(cost * ratioDad * 10000); // 원 단위
+      const momShare = Math.round(cost * ratioMom * 10000);
+
+      document.getElementById("result").innerHTML = `
+        <h3>예상 양육비 분담 결과</h3>
+        <p>총 양육비: <strong>${Math.round(cost * 10000).toLocaleString()}</strong> 원</p>
+        <p>아버지 부담액: <strong>${dadShare.toLocaleString()}</strong> 원</p>
+        <p>어머니 부담액: <strong>${momShare.toLocaleString()}</strong> 원</p>
+      `;
+    });
+  </script>
 </body>
 </html>
