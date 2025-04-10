@@ -54,6 +54,8 @@
       <button type="submit" class="w-full bg-blue-700 text-white p-2 rounded">양육비 계산</button>
     </form>
 
+    <section id="result" class="mt-6 p-4 border-t"></section>
+
     <section class="my-8">
       <div class="text-center">
         <img src="table-main.png" alt="양육비산정기준표" class="mx-auto mb-2">
@@ -85,18 +87,16 @@
         </li>
       </ol>
     </section>
-
-    <section id="result" class="mt-6 p-4 border-t"></section>
   </main>
 
   <script>
     const defaultIncomeByAge = age => {
-      if (age <= 2) return 264;
-      else if (age <= 5) return 268;
-      else if (age <= 8) return 272;
-      else if (age <= 11) return 281;
-      else if (age <= 14) return 295;
-      else return 319;
+      if (age <= 2) return 264000;
+      else if (age <= 5) return 268000;
+      else if (age <= 8) return 272000;
+      else if (age <= 11) return 281000;
+      else if (age <= 14) return 295000;
+      else return 319000;
     };
 
     const baseCostByAge = age => {
@@ -128,19 +128,20 @@
       let fatherInput = parseInt(document.getElementById('fatherIncome').value) || 0;
       let motherInput = parseInt(document.getElementById('motherIncome').value) || 0;
 
-      let inferredFatherIncome = fatherInput === 0 ? defaultIncomeByAge(Math.max(...ages)) : fatherInput;
-      let inferredMotherIncome = motherInput === 0 ? defaultIncomeByAge(Math.max(...ages)) : motherInput;
-
-      const totalIncome = inferredFatherIncome + inferredMotherIncome;
-      const fatherRatio = inferredFatherIncome / totalIncome;
-      const motherRatio = inferredMotherIncome / totalIncome;
-
       let html = '<h2 class="font-bold text-lg mb-2">자녀별 예상 양육비 분담 결과</h2>';
       let totalFather = 0, totalMother = 0;
 
       ages.forEach(age => {
         const base = baseCostByAge(age);
         const adjusted = Math.round(base * regionalFactor);
+
+        const fatherIncome = fatherInput === 0 ? defaultIncomeByAge(age) : fatherInput * 10000;
+        const motherIncome = motherInput === 0 ? defaultIncomeByAge(age) : motherInput * 10000;
+
+        const totalIncome = fatherIncome + motherIncome;
+        const fatherRatio = fatherIncome / totalIncome;
+        const motherRatio = motherIncome / totalIncome;
+
         const fatherShare = Math.round(adjusted * fatherRatio);
         const motherShare = Math.round(adjusted * motherRatio);
 
