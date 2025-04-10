@@ -1,221 +1,67 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>양육비 계산기 - 로펌 서휘 이혼전문팀 솔로몬</title>
+  <meta charset="UTF-8">
+  <title>양육비 계산 AI 로직</title>
   <style>
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
+      padding: 40px;
+      line-height: 1.7;
+      background-color: #ffffff;
     }
-    header {
-      background-color: #005bbb;
-      color: white;
-      padding: 20px 10px;
+    h2 {
       text-align: center;
+      margin-bottom: 40px;
     }
-    .desktop-logo,
-    .mobile-logo {
-      display: none;
-      margin: 0 auto;
-      max-width: 100%;
-      height: auto;
+    ul, ol {
+      margin-left: 20px;
     }
-    @media (min-width: 768px) {
-      .desktop-logo {
-        display: block;
-      }
-    }
-    @media (max-width: 767px) {
-      .mobile-logo {
-        display: block;
-      }
-    }
-    h1 {
-      margin-top: 20px;
-      font-size: 24px;
-    }
-    .contact-info {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-    .contact-info a {
-      color: white;
-      text-decoration: none;
-      margin: 0 5px;
-    }
-    .contact-info .phone {
-      color: white;
-      text-decoration: none;
+    strong {
       font-weight: bold;
-    }
-    main {
-      padding: 20px;
-    }
-    form {
-      background-color: white;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: #005bbb;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-    }
-    button:hover {
-      background-color: #004999;
-    }
-    #result {
-      margin-top: 20px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      padding: 20px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      border-radius: 8px;
-    }
-    .child-age-block {
-      display: flex;
-      align-items: center;
-    }
-    .child-age-input {
-      flex: 1;
-      margin-right: 10px;
-    }
-    .add-btn {
-      display: inline-block;
-      margin: 5px 0;
-      cursor: pointer;
-      background: #005bbb;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 4px;
-    }
-    .info-section {
-      max-width: 800px;
-      margin: 40px auto;
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-    .info-section p {
-      text-align: center;
-      font-weight: bold;
-    }
-    .child-age-input input::placeholder {
-      color: #888;
-    }
-    iframe {
-      display: block;
-      width: 100%;
-      height: 800px;
-      border: none;
-      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="/desk-logo.png" class="desktop-logo" alt="로고" />
-    <img src="/mobile-logo.png" class="mobile-logo" alt="모바일 로고" />
-    <h1>양육비 AI 계산기</h1>
-    <div class="contact-info">
-      <a href="https://www.lawsolomon.com/">솔로몬 홈페이지</a> |
-      <a href="https://blog.naver.com/pjy50091">솔로몬 공식블로그</a> |
-      <a href="tel:16444754" class="phone">상담전화 1644-4754</a>
-    </div>
-  </header>
-  <main>
-    <form id="calculator">
-      <label>자녀 나이:</label>
-      <div id="children-ages"></div>
-      <div class="add-btn" id="add-child">+ 자녀 추가</div>
-      <label for="dad-income">아버님 세전 월소득 (만원):</label>
-      <input type="number" id="dad-income" required />
-      <label for="mom-income">어머님 세전 월소득 (만원):</label>
-      <input type="number" id="mom-income" required />
-      <label for="region">거주지역:</label>
-      <select id="region">
-        <option value="도시">도시</option>
-        <option value="농어촌">농어촌</option>
-      </select>
-      <button type="submit">양육비 계산</button>
-    </form>
-    <div id="result"></div>
-    <div class="info-section">
-      <img src="/table-main.png" alt="양육비산정기준표" style="width:100%;">
-      <p>양육비산정기준표</p>
-      <img src="/table-rate.png" alt="양육비산정기준 비율표" style="width:100%;">
-      <p>양육비산정기준 비율표</p>
-    </div>
-    <iframe src="/logic.html"></iframe>
-  </main>
-  <script>
-    function addChildAge() {
-      const container = document.getElementById('children-ages');
-      const div = document.createElement('div');
-      div.className = 'child-age-block';
-      div.innerHTML = '<input class="child-age-input" type="number" placeholder="자녀의 만 나이" required />';
-      container.appendChild(div);
-    }
+  <h2>양육비 계산 AI가 양육비를 산정하는 로직</h2>
+  <ol>
+    <li>서울가정법원이 2021년 개정·공표하여 2022년 3월 1일부터 현재까지 적용되고 개정된 양육비산정기준표를 기준으로 산정</li>
+    <li>기준표의 가로축은 부부의 합산소득을 구간별로 구분. 여기서 소득은 근로소득, 영업소득, 부동산 임대수입, 이자수입 등 모든 수입의 합이며, 일반적으로 세전소득을 적용. 정부보조금·연금 등도 포함</li>
+    <li>기준표의 세로축은 자녀의 나이 구간</li>
+    <li>양육비산정기준표보다 비율표에 따라 산정하는 것이 더욱 정확하므로, 비율표를 기준으로 양육비 산정</li>
+    <li>양육비 산정 시 가감요소:
+      <ul>
+        <li>도시: +7.9% / 농어촌: -16.5%</li>
+        <li>자녀 1명: +6.53% / 3명 이상: -21.7%</li>
+        <li>중증 질환, 장애, 특이체질 → 고액 치료비: 상황 고려해 가산 또는 감산</li>
+        <li>고액 교육비: 정당성 인정되면 가산</li>
+        <li>부부 재산 상황: 필요시 가산/감산</li>
+        <li>비양육자 회생절차 진행 시 감산 → 종료 후 가산</li>
+        <li>소득·재산 없는 무자력자라도 최하한 금액은 반드시 지급</li>
+      </ul>
+    </li>
+  </ol>
 
-    window.onload = function() {
-      addChildAge();
-      document.getElementById('add-child').addEventListener('click', addChildAge);
-      document.getElementById('calculator').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const childrenInputs = document.querySelectorAll('.child-age-input');
-        const dadIncomeInput = parseFloat(document.getElementById('dad-income').value) || 0;
-        const momIncomeInput = parseFloat(document.getElementById('mom-income').value) || 0;
-        const region = document.getElementById('region').value;
+  <h3>[적용사례]</h3>
+  <p>
+    가족관계: 만15세 딸, 만8세 아들<br>
+    소득: 아버지 270만원, 어머니 180만원<br>
+    양육자: 어머니<br>
+    계산:
+    <ul>
+      <li>15세 딸: 1,402,000원</li>
+      <li>8세 아들: 1,140,000원</li>
+      <li>총 합계: 2,542,000원</li>
+      <li>아버지 분담 비율: 60%</li>
+      <li>아버지 부담액: 1,525,200원</li>
+    </ul>
+  </p>
 
-        let totalDad = 0, totalMom = 0, html = '<h3>자녀별 예상 양육비 분담 결과</h3>';
-        childrenInputs.forEach(input => {
-          const age = parseInt(input.value);
-          if (isNaN(age)) return;
-          let baseAmount;
-          if (age <= 2) baseAmount = 264000;
-          else if (age <= 5) baseAmount = 268000;
-          else if (age <= 8) baseAmount = 272000;
-          else if (age <= 11) baseAmount = 281000;
-          else if (age <= 14) baseAmount = 295000;
-          else baseAmount = 319000;
-          const dadIncome = dadIncomeInput > 0 ? dadIncomeInput : baseAmount / 10000;
-          const momIncome = momIncomeInput > 0 ? momIncomeInput : baseAmount / 10000;
-          const totalIncome = dadIncome + momIncome;
-          const dadShare = Math.round((dadIncome / totalIncome) * baseAmount);
-          const momShare = Math.round((momIncome / totalIncome) * baseAmount);
-          totalDad += dadShare;
-          totalMom += momShare;
-          html += `<p>${age}세 자녀:<br>아버님 부담액: ${dadShare.toLocaleString()} 원<br>어머님 부담액: ${momShare.toLocaleString()} 원</p>`;
-        });
-        html += `<hr><p><strong>총 합계:</strong><br>아버님: ${totalDad.toLocaleString()} 원<br>어머님: ${totalMom.toLocaleString()} 원</p>`;
-        document.getElementById('result').innerHTML = html;
-      });
-    }
-  </script>
+  <h3>[유의사항]</h3>
+  <p>
+    본 기준표는 법적 구속력은 없으며, 참고자료임.<br>
+    실제 판결 시 구체적 사정을 반영해 다른 양육비가 결정될 수 있음.<br>
+    과거 양육비, 재산분할, 위자료 포함 상황에서는 적용 곤란.
+  </p>
 </body>
 </html>

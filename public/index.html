@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>양육비 계산기 - 로펌 서휘 이혼전문팀 솔로몬</title>
   <style>
     body {
@@ -128,19 +128,15 @@
     .child-age-input input::placeholder {
       color: #888;
     }
-    iframe {
-      display: block;
-      width: 100%;
-      height: 800px;
-      border: none;
-      margin-top: 40px;
+    .logic-description {
+      display: none;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="/desk-logo.png" class="desktop-logo" alt="로고" />
-    <img src="/mobile-logo.png" class="mobile-logo" alt="모바일 로고" />
+    <img src="/desk-logo.png" class="desktop-logo" alt="로고"/>
+    <img src="/mobile-logo.png" class="mobile-logo" alt="모바일 로고"/>
     <h1>양육비 AI 계산기</h1>
     <div class="contact-info">
       <a href="https://www.lawsolomon.com/">솔로몬 홈페이지</a> |
@@ -171,7 +167,6 @@
       <img src="/table-rate.png" alt="양육비산정기준 비율표" style="width:100%;">
       <p>양육비산정기준 비율표</p>
     </div>
-    <iframe src="/logic.html"></iframe>
   </main>
   <script>
     function addChildAge() {
@@ -187,12 +182,13 @@
       document.getElementById('add-child').addEventListener('click', addChildAge);
       document.getElementById('calculator').addEventListener('submit', function(e) {
         e.preventDefault();
-        const childrenInputs = document.querySelectorAll('.child-age-input');
+        const childrenInputs = document.querySelectorAll('.child-age-input input');
         const dadIncomeInput = parseFloat(document.getElementById('dad-income').value) || 0;
         const momIncomeInput = parseFloat(document.getElementById('mom-income').value) || 0;
         const region = document.getElementById('region').value;
 
         let totalDad = 0, totalMom = 0, html = '<h3>자녀별 예상 양육비 분담 결과</h3>';
+
         childrenInputs.forEach(input => {
           const age = parseInt(input.value);
           if (isNaN(age)) return;
@@ -203,15 +199,20 @@
           else if (age <= 11) baseAmount = 281000;
           else if (age <= 14) baseAmount = 295000;
           else baseAmount = 319000;
-          const dadIncome = dadIncomeInput > 0 ? dadIncomeInput : baseAmount / 10000;
-          const momIncome = momIncomeInput > 0 ? momIncomeInput : baseAmount / 10000;
+
+          const dadIncome = dadIncomeInput !== 0 ? dadIncomeInput : baseAmount / 10000;
+          const momIncome = momIncomeInput !== 0 ? momIncomeInput : baseAmount / 10000;
           const totalIncome = dadIncome + momIncome;
+
           const dadShare = Math.round((dadIncome / totalIncome) * baseAmount);
           const momShare = Math.round((momIncome / totalIncome) * baseAmount);
+
           totalDad += dadShare;
           totalMom += momShare;
+
           html += `<p>${age}세 자녀:<br>아버님 부담액: ${dadShare.toLocaleString()} 원<br>어머님 부담액: ${momShare.toLocaleString()} 원</p>`;
         });
+
         html += `<hr><p><strong>총 합계:</strong><br>아버님: ${totalDad.toLocaleString()} 원<br>어머님: ${totalMom.toLocaleString()} 원</p>`;
         document.getElementById('result').innerHTML = html;
       });
