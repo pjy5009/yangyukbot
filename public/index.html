@@ -11,7 +11,7 @@
 <body class="bg-gray-100">
   <header class="bg-blue-800 text-white py-4">
     <div class="container mx-auto text-center">
-      <img src="desk-logo.png" alt="로고" class="mx-auto mb-2 h-16">
+      <img src="desk-logo.png" alt="로고" class="mx-auto mb-2 h-24">
       <h1 class="text-2xl font-bold">양육비 AI 계산기</h1>
       <div class="mt-2 space-x-2">
         <a href="#" class="underline">솔로몬 홈페이지</a>
@@ -54,6 +54,38 @@
       <button type="submit" class="w-full bg-blue-700 text-white p-2 rounded">양육비 계산</button>
     </form>
 
+    <section class="my-8">
+      <div class="text-center">
+        <img src="table-main.png" alt="양육비산정기준표" class="mx-auto mb-2">
+        <div class="font-bold">양육비산정기준표</div>
+      </div>
+      <div class="text-center mt-6">
+        <img src="table-rate.png" alt="양육비산정기준 비율표" class="mx-auto mb-2">
+        <div class="font-bold">양육비산정기준 비율표</div>
+      </div>
+    </section>
+
+    <section class="mt-4 p-4 border-t">
+      <h2 class="font-bold text-lg mb-2">양육비 계산 AI가 양육비를 산정하는 로직</h2>
+      <ol class="list-decimal ml-6 space-y-1 text-sm">
+        <li>서울가정법원이 2021년 개정·공표하여 2022년 3월 1일부터 현재까지 적용되고 개정된 양육비산정기준표를 기준으로 산정</li>
+        <li>기준표의 가로축은 부부의 합산소득을 구간별로 구분. 여기서 소득은 근로소득, 영업소득, 부동산 임대수입, 이자수입 등 모든 수입의 합이며, 일반적으로 세전소득을 적용. 정부보조금·연금 등도 포함</li>
+        <li>기준표의 세로축은 자녀의 나이 구간</li>
+        <li>양육비산정기준표보다 비율표에 따라 산정하는 것이 더욱 정확하므로, 비율표를 기준으로 양육비 산정</li>
+        <li>양육비 산정 시 가감요소:
+          <ul class="list-disc ml-5">
+            <li>도시: +7.9% / 농어촌: -16.5%</li>
+            <li>자녀 1명: +6.53% / 3명 이상: -21.7%</li>
+            <li>중증 질환, 장애, 특이체질 → 고액 치료비: 상황 고려해 가산 또는 감산</li>
+            <li>고액 교육비: 정당성 인정되면 가산</li>
+            <li>부부 재산 상황: 필요시 가산/감산</li>
+            <li>비양육자 회생절차 진행 시 감산 → 종료 후 가산</li>
+            <li>소득·재산 없는 무자력자라도 최하한 금액은 반드시 지급</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
     <section id="result" class="mt-6 p-4 border-t"></section>
   </main>
 
@@ -90,19 +122,18 @@
       e.preventDefault();
 
       const ages = Array.from(document.getElementsByName('age')).map(i => parseInt(i.value));
-      let fatherIncome = parseInt(document.getElementById('fatherIncome').value) || 0;
-      let motherIncome = parseInt(document.getElementById('motherIncome').value) || 0;
-
-      const inferredIncome = defaultIncomeByAge(Math.max(...ages));
-      if (fatherIncome === 0) fatherIncome = inferredIncome;
-      if (motherIncome === 0) motherIncome = inferredIncome;
-
       const region = document.getElementById('region').value;
       const regionalFactor = region === 'urban' ? 1.079 : 0.835;
 
-      const totalIncome = fatherIncome + motherIncome;
-      const fatherRatio = fatherIncome / totalIncome;
-      const motherRatio = motherIncome / totalIncome;
+      let fatherInput = parseInt(document.getElementById('fatherIncome').value) || 0;
+      let motherInput = parseInt(document.getElementById('motherIncome').value) || 0;
+
+      let inferredFatherIncome = fatherInput === 0 ? defaultIncomeByAge(Math.max(...ages)) : fatherInput;
+      let inferredMotherIncome = motherInput === 0 ? defaultIncomeByAge(Math.max(...ages)) : motherInput;
+
+      const totalIncome = inferredFatherIncome + inferredMotherIncome;
+      const fatherRatio = inferredFatherIncome / totalIncome;
+      const motherRatio = inferredMotherIncome / totalIncome;
 
       let html = '<h2 class="font-bold text-lg mb-2">자녀별 예상 양육비 분담 결과</h2>';
       let totalFather = 0, totalMother = 0;
