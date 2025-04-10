@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>양육비 계산기 - 로펌 서휘 이혼전문팀 솔로몬</title>
   <style>
     body {
@@ -128,15 +128,19 @@
     .child-age-input input::placeholder {
       color: #888;
     }
-    .logic-description {
-      display: none;
+    iframe {
+      display: block;
+      width: 100%;
+      height: 800px;
+      border: none;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="/desk-logo.png" class="desktop-logo" alt="로고"/>
-    <img src="/mobile-logo.png" class="mobile-logo" alt="모바일 로고"/>
+    <img src="/desk-logo.png" class="desktop-logo" alt="로고" />
+    <img src="/mobile-logo.png" class="mobile-logo" alt="모바일 로고" />
     <h1>양육비 AI 계산기</h1>
     <div class="contact-info">
       <a href="https://www.lawsolomon.com/">솔로몬 홈페이지</a> |
@@ -167,6 +171,7 @@
       <img src="/table-rate.png" alt="양육비산정기준 비율표" style="width:100%;">
       <p>양육비산정기준 비율표</p>
     </div>
+    <iframe src="/logic.html"></iframe>
   </main>
   <script>
     function addChildAge() {
