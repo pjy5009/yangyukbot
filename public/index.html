@@ -28,7 +28,7 @@
       <div>
         <label class="block font-bold">자녀 나이:</label>
         <div id="children-ages" class="space-y-2">
-          <input type="number" name="age" class="w-full p-2 border rounded" placeholder="예: 10" />
+          <input type="number" name="age" class="w-full p-2 border rounded" placeholder="자녀의 만 나이를 입력합니다." />
         </div>
         <button type="button" onclick="addChild()" class="mt-2 px-4 py-2 bg-blue-700 text-white rounded">+ 자녀 추가</button>
       </div>
@@ -113,7 +113,7 @@
       const input = document.createElement('input');
       input.type = 'number';
       input.name = 'age';
-      input.placeholder = '예: 10';
+      input.placeholder = '자녀의 만 나이를 입력합니다.';
       input.className = 'w-full p-2 border rounded';
       container.appendChild(input);
     }
