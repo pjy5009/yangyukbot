@@ -58,14 +58,23 @@
   </main>
 
   <script>
-    function getVirtualIncome(age) {
+    const defaultIncomeByAge = age => {
       if (age <= 2) return 264;
       else if (age <= 5) return 268;
       else if (age <= 8) return 272;
       else if (age <= 11) return 281;
       else if (age <= 14) return 295;
       else return 319;
-    }
+    };
+
+    const baseCostByAge = age => {
+      if (age <= 2) return 734000;
+      else if (age <= 5) return 757000;
+      else if (age <= 8) return 783000;
+      else if (age <= 11) return 808000;
+      else if (age <= 14) return 858000;
+      else return 927000;
+    };
 
     function addChild() {
       const container = document.getElementById('children-ages');
@@ -81,31 +90,28 @@
       e.preventDefault();
 
       const ages = Array.from(document.getElementsByName('age')).map(i => parseInt(i.value));
+      let fatherIncome = parseInt(document.getElementById('fatherIncome').value) || 0;
+      let motherIncome = parseInt(document.getElementById('motherIncome').value) || 0;
+
+      const inferredIncome = defaultIncomeByAge(Math.max(...ages));
+      if (fatherIncome === 0) fatherIncome = inferredIncome;
+      if (motherIncome === 0) motherIncome = inferredIncome;
+
       const region = document.getElementById('region').value;
-      let fatherIncomeInput = parseInt(document.getElementById('fatherIncome').value) || 0;
-      let motherIncomeInput = parseInt(document.getElementById('motherIncome').value) || 0;
+      const regionalFactor = region === 'urban' ? 1.079 : 0.835;
+
+      const totalIncome = fatherIncome + motherIncome;
+      const fatherRatio = fatherIncome / totalIncome;
+      const motherRatio = motherIncome / totalIncome;
 
       let html = '<h2 class="font-bold text-lg mb-2">자녀별 예상 양육비 분담 결과</h2>';
       let totalFather = 0, totalMother = 0;
 
       ages.forEach(age => {
-        const base = 264000 + (age * 5000); // 단순 계산
-        const regionalFactor = region === 'urban' ? 1.079 : 0.835;
-        const adjustedCost = Math.round(base * regionalFactor);
-
-        let fatherIncome = fatherIncomeInput;
-        let motherIncome = motherIncomeInput;
-
-        // 대체 소득 적용 (자녀 나이별 적용)
-        if (fatherIncome === 0) fatherIncome = getVirtualIncome(age);
-        if (motherIncome === 0) motherIncome = getVirtualIncome(age);
-
-        const totalIncome = fatherIncome + motherIncome;
-        const fatherRatio = fatherIncome / totalIncome;
-        const motherRatio = motherIncome / totalIncome;
-
-        const fatherShare = Math.round(adjustedCost * fatherRatio);
-        const motherShare = Math.round(adjustedCost * motherRatio);
+        const base = baseCostByAge(age);
+        const adjusted = Math.round(base * regionalFactor);
+        const fatherShare = Math.round(adjusted * fatherRatio);
+        const motherShare = Math.round(adjusted * motherRatio);
 
         totalFather += fatherShare;
         totalMother += motherShare;
