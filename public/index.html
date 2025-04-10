@@ -155,6 +155,8 @@ if (region === 'urban') {
   regionalFactor = 1.079;  // 도시: +7.9%
 } else if (region === 'rural') {
   regionalFactor = 0.835;  // 농어촌: -16.5%
+}else {
+  regionalFactor = 1; // 일반 또는 기타: 가감 없음
 }
 
       let fatherInput = parseInt(document.getElementById('fatherIncome').value) || 0;
