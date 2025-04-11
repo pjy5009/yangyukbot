@@ -15,15 +15,31 @@
 <img src="desk-logo.png" alt="로고" class="hidden md:block mx-auto mb-4 w-full">
 <!-- 모바일용 (중간 사이즈 미만에서만 보임) -->
 <img src="mobile-logo.png" alt="모바일 로고" class="block md:hidden mx-auto mb-4 w-full">
-      <h1 class="text-2xl font-bold">양육비 AI 계산기</h1>
-      <div class="mt-2 space-x-2">
-        <a href="#" class="underline">솔로몬 홈페이지</a>
-        <span>|</span>
-        <a href="#" class="underline">솔로몬 공식블로그</a>
-        <span>|</span>
-        <a href="tel:1644-4754" class="underline font-bold">상담전화 1644-4754</a>
-      </div>
-    </div>
+<!-- 모바일 전용 (두 줄 배치) -->
+<div class="block sm:hidden text-[16px] text-center mx-auto leading-tight">
+  <h1 class="text-2xl font-bold mb-1">양육비 AI 계산기</h1>
+  <div class="space-x-2 mb-1">
+    <a href="https://www.lawsolomon.com/" class="underline">솔로몬 홈페이지</a>
+    <span class="text-gray-400">ㅣ</span>
+    <a href="https://blog.naver.com/pjy50091" class="underline">솔로몬 공식블로그</a>
+  </div>
+  <div>
+    <a href="tel:1644-4754" class="underline font-semibold">상담 1644-4754</a>
+  </div>
+</div>
+
+<!-- 데스크탑 전용 -->
+<div class="hidden sm:block text-center mt-10 mb-10">
+  <h1 class="text-5xl font-bold mb-6">양육비 AI 계산기</h1>
+  <div class="text-2xl font-medium space-x-6 mb-8">
+    <a href="https://www.lawsolomon.com/" class="underline">솔로몬 홈페이지</a>
+    <span class="text-gray-400">ㅣ</span>
+    <a href="https://blog.naver.com/pjy50091" class="underline">솔로몬 공식블로그</a>
+    <span class="text-gray-400">ㅣ</span>
+    <a href="tel:1644-4754" class="underline font-semibold">상담 <span class="font-bold">1644-4754</span></a>
+  </div>
+</div>
+
   </header>
 
   <main class="container mx-auto p-4 bg-white mt-6 rounded shadow">
@@ -31,7 +47,14 @@
       <div>
         <label class="block font-bold">자녀 나이:</label>
         <div id="children-ages" class="space-y-2">
-          <input type="number" name="age" class="w-full p-2 border rounded" placeholder="자녀의 만 나이를 입력합니다." />
+          <input
+  type="number"
+  name="age"
+  class="w-full p-2 border rounded text-black placeholder-black"
+  placeholder="자녀의 만 나이를 입력합니다."
+  onfocus="this.placeholder='';"
+  onblur="this.placeholder='자녀의 만 나이를 입력합니다.';"
+/>
         </div>
         <button type="button" onclick="addChild()" class="mt-2 px-4 py-2 bg-blue-700 text-white rounded">+ 자녀 추가</button>
       </div>
@@ -41,6 +64,11 @@
         <input type="number" id="fatherIncome" class="w-full p-2 border rounded" />
       </div>
 
+      <small class="text-gray-500 text-sm block mt-1">
+        ※ 현재 소득이 아닌 이혼 후 예상되는 소득을 입력해 주세요.<br />
+        예컨대, 전업주부지만 이혼 후 재취업하여 월 250이 예상된다면 250으로 입력
+      </small>
+      
       <div>
         <label class="block font-bold">어머님 세전 월소득 (만원):</label>
         <input type="number" id="motherIncome" class="w-full p-2 border rounded" />
@@ -49,7 +77,7 @@
       <div>
         <label class="block font-bold">거주지역:</label>
         <select id="region" class="w-full p-2 border rounded">
-          <option value="normal" selected>일반</option>
+          <option value="normal" selected>일반(중소도시 포함)</option>
           <option value="urban">도시</option>
           <option value="rural">농어촌</option>
         </select>        
@@ -136,14 +164,20 @@
     };
 
     function addChild() {
-      const container = document.getElementById('children-ages');
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.name = 'age';
-      input.placeholder = '자녀의 만 나이를 입력합니다.';
-      input.className = 'w-full p-2 border rounded';
-      container.appendChild(input);
-    }
+  const container = document.getElementById('children-ages');
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.name = 'age';
+  input.placeholder = '자녀의 만 나이를 입력합니다.';
+  input.className = 'w-full p-2 border rounded text-black placeholder-black';
+  input.onfocus = function () {
+    this.placeholder = '';
+  };
+  input.onblur = function () {
+    this.placeholder = '자녀의 만 나이를 입력합니다.';
+  };
+  container.appendChild(input);
+}
 
     document.getElementById('calculator').addEventListener('submit', function (e) {
       e.preventDefault();
